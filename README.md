@@ -3,13 +3,6 @@
 Simple personal website filled with random useless stuff. <br/>
 Right now its more so on the empty side.
 
-## Deployment
-
-* git status
-* git add .
-* git commit -m ""
-* git push origin master
-
 ## Built With
 
 * [HTML](https://www.w3schools.com/html/default.asp) - Words and structure
