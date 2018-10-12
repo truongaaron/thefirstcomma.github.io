@@ -47,12 +47,19 @@ li a:hover {
 	font-size 30px;
 }
 
+#pup {
+	width: 75%;
+	height: 50%;
+	position: relative;
+}
+
 #devmatch {
 	cursor: pointer;
 }
+
 #pic-dev {
 	width: 50%;
-	margin-right: 25%;
+	margin-right: 15%;
 }
 
 #pic-trump-pen {
