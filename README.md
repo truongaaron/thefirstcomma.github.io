@@ -12,7 +12,7 @@ Right now its more so on the empty side.
 ## Author(s)
 
 * **Andrew Kim** - *Big Project Here* - [LeaveEmptyForNow](https://github.com/thefirstcomma)
-* **Aaron Pluto Truong** -*Dwarf Planet* -
+* **Aaron *Pluto* Truong** -*Dwarf Planet* -
 
 ## Acknowledgments
 
