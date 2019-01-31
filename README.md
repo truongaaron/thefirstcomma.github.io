@@ -9,9 +9,10 @@ Right now its more so on the empty side.
 * [CSS/Bootstrap](https://www.w3schools.com/css/default.asp) - Styling
 * [JS?](https://www.w3schools.com/js/default.asp) - Used for UI
 
-## Author
+## Author(s)
 
 * **Andrew Kim** - *Big Project Here* - [LeaveEmptyForNow](https://github.com/thefirstcomma)
+* **Aaron Pluto Truong** -*Dwarf Planet* -
 
 ## Acknowledgments
 
