@@ -12,7 +12,7 @@ Right now its more so on the empty side.
 ## Author(s)
 
 * **Andrew Kim** - *Big Project Here* - [LeaveEmptyForNow](https://github.com/thefirstcomma)
-* **Aaron Truong** -*Legitimate Hangman Game* *COUGH* *COUGH* & *Tic-Tac-Toe* -
+* **Aaron Truong** - *Legitimate Hangman Game* *COUGH* *COUGH* & *Tic-Tac-Toe* - 
 
 ## Acknowledgments
 
