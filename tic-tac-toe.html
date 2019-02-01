@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<head> 
+  <meta name="description" content="Tic-Tac-Toe">
+
+  <script> 
+    //"O" Image: https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev
+    //"X" Image: https://drive.google.com/uc?export=download&id=1KOHppOT3OXr_NGknSl_j1WJ5mRF3GJyW
+
+    var boxIDS = ["box1", "box2", "box3", "box4", "box5", "box6", "box7", "box8","box9"];
+
+    function initializePvP(){
+      document.getElementById("box1").onclick = function(){chooseLetter("box1");this.disabled=true};
+      document.getElementById("box2").onclick = function(){chooseLetter("box2");this.disabled=true};
+      document.getElementById("box3").onclick = function(){chooseLetter("box3");this.disabled=true};
+      document.getElementById("box4").onclick = function(){chooseLetter("box4");this.disabled=true};
+      document.getElementById("box5").onclick = function(){chooseLetter("box5");this.disabled=true};
+      document.getElementById("box6").onclick = function(){chooseLetter("box6");this.disabled=true};
+      document.getElementById("box7").onclick = function(){chooseLetter("box7");this.disabled=true};
+      document.getElementById("box8").onclick = function(){chooseLetter("box8");this.disabled=true};
+      document.getElementById("box9").onclick = function(){chooseLetter("box9");this.disabled=true};
+      document.getElementById("botButton").disabled = "true";
+      document.getElementById("averageBotButton").disabled = "true";
+      
+      var botNotice = document.createElement("h1");
+      var text = document.createTextNode("You're Currently Playing Against One Another.");
+      botNotice.appendChild(text);
+      document.getElementById("grid-relativity").appendChild(botNotice);
+      botNotice.style.bottom = "80%";
+      botNotice.style.left = "8%";
+      botNotice.style.backgroundColor = "yellow";
+    }
+
+    function initializeRandomBot(){
+      document.getElementById("box1").onclick = function(){bot_chooseLetter("box1");this.disabled=true};
+      document.getElementById("box2").onclick = function(){bot_chooseLetter("box2");this.disabled=true};
+      document.getElementById("box3").onclick = function(){bot_chooseLetter("box3");this.disabled=true};
+      document.getElementById("box4").onclick = function(){bot_chooseLetter("box4");this.disabled=true};
+      document.getElementById("box5").onclick = function(){bot_chooseLetter("box5");this.disabled=true};
+      document.getElementById("box6").onclick = function(){bot_chooseLetter("box6");this.disabled=true};
+      document.getElementById("box7").onclick = function(){bot_chooseLetter("box7");this.disabled=true};
+      document.getElementById("box8").onclick = function(){bot_chooseLetter("box8");this.disabled=true};
+      document.getElementById("box9").onclick = function(){bot_chooseLetter("box9");this.disabled=true};
+      var randomBox = boxIDS[Math.floor(Math.random()*boxIDS.length)];
+      document.getElementById("humanButton").disabled = "true";
+      document.getElementById("averageBotButton").disabled = "true";
+      
+      var botNotice = document.createElement("h1");
+      var text = document.createTextNode("You're Currently Playing Against An Easy Bot.");
+      botNotice.appendChild(text);
+      document.getElementById("grid-relativity").appendChild(botNotice);
+      botNotice.style.bottom = "80%";
+      botNotice.style.left = "10%";
+      botNotice.style.backgroundColor = "yellow";
+    }  
+
+    function initializeAverageBot(){
+      document.getElementById("box1").onclick = function(){avgBot_chooseLetter("box1");this.disabled=true};
+      document.getElementById("box2").onclick = function(){avgBot_chooseLetter("box2");this.disabled=true};
+      document.getElementById("box3").onclick = function(){avgBot_chooseLetter("box3");this.disabled=true};
+      document.getElementById("box4").onclick = function(){avgBot_chooseLetter("box4");this.disabled=true};
+      document.getElementById("box5").onclick = function(){avgBot_chooseLetter("box5");this.disabled=true};
+      document.getElementById("box6").onclick = function(){avgBot_chooseLetter("box6");this.disabled=true};
+      document.getElementById("box7").onclick = function(){avgBot_chooseLetter("box7");this.disabled=true};
+      document.getElementById("box8").onclick = function(){avgBot_chooseLetter("box8");this.disabled=true};
+      document.getElementById("box9").onclick = function(){avgBot_chooseLetter("box9");this.disabled=true};
+      document.getElementById("humanButton").disabled = "true";
+      document.getElementById("botButton").disabled = "true";
+      var randomBox = boxIDS[Math.floor(Math.random()*boxIDS.length)];
+      
+      var botNotice = document.createElement("h1");
+      var text = document.createTextNode("You're Currently Playing Against An Average Bot.");
+      botNotice.appendChild(text);
+      document.getElementById("grid-relativity").appendChild(botNotice);
+      botNotice.style.bottom = "80%";
+      botNotice.style.left = "3%";
+      botNotice.style.backgroundColor = "yellow";
+    }
+
+    var dict = {};
+
+    var counter = 0;
+    var playerText = document.getElementById("playerText");
+    playerText.textContent += "1's Turn."
+
+    // Function for the "Random/Easy" Bot
+    function bot_chooseLetter(clicked_id){
+      if(counter % 2 == 0){
+        document.getElementById(clicked_id).innerHTML="<img src='https://drive.google.com/uc?export=download&id=1KOHppOT3OXr_NGknSl_j1WJ5mRF3GJyW'/>";
+        dict[clicked_id] = counter % 2;
+        boxIDS = boxIDS.filter(e => e !== clicked_id);
+        console.log(boxIDS);
+        checkIfWin();
+        document.getElementById("playerText").innerHTML = "It Is Currently Player " + (counter%2 + 2) + "'s turn.";
+      }
+      counter++;
+      
+      var randomBox = boxIDS[Math.floor(Math.random()*boxIDS.length)];
+      
+      if(counter % 2 == 1) {
+        document.getElementById(randomBox).innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+        dict[randomBox] = counter % 2;
+        boxIDS = boxIDS.filter(e => e !== randomBox);
+        document.getElementById(randomBox).disabled = "true";
+        checkIfWin();
+        document.getElementById("playerText").innerHTML = "It Is Currently Player " + (counter%2) + "'s turn.";
+      }
+      counter++;
+    }
+
+    // Function for the "Average" Bot
+    function avgBot_chooseLetter(clicked_id){
+      if(counter % 2 == 0){
+        document.getElementById(clicked_id).innerHTML="<img src='https://drive.google.com/uc?export=download&id=1KOHppOT3OXr_NGknSl_j1WJ5mRF3GJyW'/>";
+        dict[clicked_id] = counter % 2;
+        boxIDS = boxIDS.filter(e => e !== clicked_id);
+        console.log(boxIDS);
+        checkIfWin();
+        document.getElementById("playerText").innerHTML = "It Is Currently Player " + (counter%2 + 2) + "'s turn.";
+      }
+      counter++;
+      
+      var randomBox = boxIDS[Math.floor(Math.random()*boxIDS.length)];
+      var tempBox = "";
+      
+      if(counter % 2 == 1) {
+        if(dict["box1"] == 0 && dict["box3"] == 0 && dict["box2"] != 1){
+            document.getElementById("box2").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box2";
+        } else if(dict["box1"] == 0 && dict["box2"] == 0 && dict["box3"] != 1){
+            document.getElementById("box3").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box3";          
+        } else if(dict["box1"] == 0 && dict["box4"] == 0 && dict["box7"] != 1){
+            document.getElementById("box7").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box7";          
+        } else if(dict["box1"] == 0 && dict["box7"] == 0 && dict["box4"] != 1){
+            document.getElementById("box4").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box4";       
+        } else if(dict["box1"] == 0 && dict["box5"] == 0 && dict["box9"] != 1){
+            document.getElementById("box9").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box9";          
+        } else if(dict["box1"] == 0 && dict["box9"] == 0 && dict["box5"] != 1){
+            document.getElementById("box5").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box5";          
+        } else if(dict["box2"] == 0 && dict["box5"] == 0 && dict["box8"] != 1){
+            document.getElementById("box8").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box8";          
+        } else if(dict["box2"] == 0 && dict["box3"] == 0 && dict["box1"] != 1){
+            document.getElementById("box1").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box1";          
+        } else if(dict["box2"] == 0 && dict["box8"] == 0 && dict["box5"] != 1){
+            document.getElementById("box5").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box5";          
+        } else if(dict["box3"] == 0 && dict["box6"] == 0 && dict["box9"] != 1){
+            document.getElementById("box9").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box9";          
+        } else if(dict["box6"] == 0 && dict["box9"] == 0 && dict["box3"] != 1){
+            document.getElementById("box3").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box3";          
+        } else if(dict["box3"] == 0 && dict["box9"] == 0 && dict["box6"] != 1){
+            document.getElementById("box6").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box6";          
+        } else if(dict["box3"] == 0 && dict["box5"] == 0 && dict["box7"] != 1){
+            document.getElementById("box7").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box7";          
+        } else if(dict["box3"] == 0 && dict["box7"] == 0 && dict["box5"] != 1){
+            document.getElementById("box5").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box5";          
+        } else if(dict["box5"] == 0 && dict["box7"] == 0 && dict["box3"] != 1){
+            document.getElementById("box3").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box3";          
+        } else if(dict["box4"] == 0 && dict["box5"] == 0 && dict["box6"] != 1){
+            document.getElementById("box6").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box6";          
+        } else if(dict["box4"] == 0 && dict["box6"] == 0 && dict["box5"] != 1){
+            document.getElementById("box5").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box5";          
+        } else if(dict["box4"] == 0 && dict["box7"] == 0 && dict["box1"] != 1){
+            document.getElementById("box1").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box1";          
+        } else if(dict["box5"] == 0 && dict["box6"] == 0 && dict["box4"] != 1){
+            document.getElementById("box4").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box4";          
+        } else if(dict["box5"] == 0 && dict["box8"] == 0 && dict["box2"] != 1){
+            document.getElementById("box2").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box2";          
+        } else if(dict["box5"] == 0 && dict["box9"] == 0 && dict["box1"] != 1){
+            document.getElementById("box1").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box1";          
+        } else if(dict["box7"] == 0 && dict["box8"] == 0 && dict["box9"] != 1){
+            document.getElementById("box9").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box9";          
+        } else if(dict["box7"] == 0 && dict["box9"] == 0 && dict["box8"] != 1){
+            document.getElementById("box8").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box8";          
+        } else if(dict["box8"] == 0 && dict["box9"] == 0 && dict["box7"] != 1){
+            document.getElementById("box7").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            tempBox = "box7";          
+        } else {
+            document.getElementById(randomBox).innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+            dict[randomBox] = counter % 2;
+            boxIDS = boxIDS.filter(e => e !== randomBox);
+            document.getElementById(randomBox).disabled = "true";
+            checkIfWin();
+            document.getElementById("playerText").innerHTML = "It Is Currently Player " + (counter%2) + "'s turn.";
+            tempBox = randomBox;
+        }
+        dict[tempBox] = counter % 2;
+        boxIDS = boxIDS.filter(e => e !== tempBox);
+        document.getElementById(tempBox).disabled = "true";
+        checkIfWin();
+        document.getElementById("playerText").innerHTML = "It Is Currently Player " + (counter%2) + "'s turn.";
+      }
+      counter++;
+    }
+
+    // Function for Human vs. Human
+    function chooseLetter(clicked_id){
+      if(counter % 2 == 0){
+        document.getElementById(clicked_id).innerHTML="<img src='https://drive.google.com/uc?export=download&id=1KOHppOT3OXr_NGknSl_j1WJ5mRF3GJyW'/>";
+        dict[clicked_id] = counter % 2;
+        checkIfWin();
+        document.getElementById("playerText").innerHTML = "It Is Currently Player " + (counter%2 + 2) + "'s turn.";
+      } else {
+          document.getElementById(clicked_id).innerHTML="<img src='https://drive.google.com/uc?export=download&id=1bFPcwcnQM6z8udITZTrGSFGVrZ_uLKev'/>";
+          dict[clicked_id] = counter % 2;
+          checkIfWin();
+          document.getElementById("playerText").innerHTML = "It Is Currently Player " + (counter%2) + "'s turn.";
+      }
+      counter++;
+    }
+
+    function checkIfWin(){
+      if(dict["box1"] == 0 && dict["box2"] == 0 && dict["box3"] == 0){
+          alert("Player 1 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box1"] == 1 && dict["box2"] == 1 && dict["box3"] == 1){
+          alert("Player 2 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box1"] == 0 && dict["box4"] == 0 && dict["box7"] == 0){
+          alert("Player 1 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box1"] == 1 && dict["box4"] == 1 && dict["box7"] == 1){
+          alert("Player 2 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box1"] == 0 && dict["box5"] == 0 && dict["box9"] == 0){
+          alert("Player 1 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box1"] == 1 && dict["box5"] == 1 && dict["box9"] == 1){
+          alert("Player 2 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box2"] == 0 && dict["box5"] == 0 && dict["box8"] == 0){
+          alert("Player 1 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box2"] == 1 && dict["box5"] == 1 && dict["box8"] == 1){
+          alert("Player 2 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box3"] == 0 && dict["box6"] == 0 && dict["box9"] == 0){
+          alert("Player 1 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box3"] == 1 && dict["box6"] == 1 && dict["box9"] == 1){
+          alert("Player 2 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box4"] == 0 && dict["box5"] == 0 && dict["box6"] == 0){
+          alert("Player 1 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box4"] == 1 && dict["box5"] == 1 && dict["box6"] == 1){
+          alert("Player 2 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box7"] == 0 && dict["box8"] == 0 && dict["box9"] == 0){
+          alert("Player 1 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box7"] == 1 && dict["box8"] == 1 && dict["box9"] == 1){
+          alert("Player 2 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box3"] == 0 && dict["box5"] == 0 && dict["box7"] == 0){
+          alert("Player 1 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(dict["box3"] == 1 && dict["box5"] == 1 && dict["box7"] == 1){
+          alert("Player 2 has won!");
+          history.go(0);
+          alert = function() {};
+      } else if(counter == 8){
+          alert("DRAW!");
+          history.go(0);
+          alert = function() {};
+      } 
+       
+    }
+  </script>
+
+</head>
+<body> 
+  <div id="grid-relativity">
+    <h1>Tic-Tac-Toe</h1>
+    <img id="grid" src="https://drive.google.com/uc?export=download&id=1LTQV8Im2civ6sinqQZuH9wx2nVl7oWUG"/>
+    <button id="box1"></button>
+    <button id="box2"></button>
+    <button id="box3"></button>
+    <button id="box4"></button>
+    <button id="box5"></button>
+    <button id="box6"></button>
+    <button id="box7"></button>
+    <button id="box8"></button>
+    <button id="box9"></button>
+    <button id="humanButton" onClick="initializePvP();this.disabled=true;"> Play Against Your Friend </button>
+    <button id="botButton" onClick="initializeRandomBot();this.disabled=true"> Play Against An Easy Bot </button>
+    <button id="averageBotButton" onClick="initializeAverageBot();this.disabled=true"> Play Against An Average Bot </button>
+    <button id="restartGameButton" onClick="window.location.href=window.location.href">Restart Game</button>
+    <h2 id="playerText">It Is Currently Player </h2>
+    <h3 id="player1Text">Player 1:<img id="player1Image" src="https://drive.google.com/uc?export=download&id=1-Qcd0u7NsWOSzMXhfg-fsvKzRxZcila8"/></h3>
+    <h3 id="player2Text">Player 2: <img id="player2Image" src="https://drive.google.com/uc?export=download&id=14xnusfrEjCxymv50uM1rHhITOXgjbFLX"/></h3>
+  </div>
+
+  <style> 
+    #grid-relativity {
+      position: absolute;
+      left: 28%;
+    }
+
+    #grid-relativity, #grid, #player1Image, #player2Image {
+      user-drag: none; 
+      user-select: none;
+      -moz-user-select: none;
+      -webkit-user-drag: none;
+      -webkit-user-select: none;
+      -ms-user-select: none;
+    }
+
+    h1 {
+      position: absolute;
+      left: 38.7%;
+    }
+
+    h2 {
+      bottom: 65%;
+      left: -50%;
+      position: absolute;
+    }
+
+    #player1Text {
+      position: absolute;
+      top: 2.5%;
+      left: -50%;
+    }
+
+    #player1Image {
+      position: absolute;
+      top: 2.5%;
+      left: 110%;
+      height: 20px;
+    }
+
+    #player2Text {
+      position: absolute;
+      top: 2.5%;
+      left: -30%;
+    }
+
+    #player2Image {
+      position: absolute;
+      top: 2.5%;
+      left: 110%;
+      height: 20px;
+    }
+
+    #box1 {
+      height:90px;
+      width:90px;
+      bottom:390px;
+      left: 210px;
+    }
+
+    #box2 {
+      height:90px;
+      width:90px;
+      bottom: 390px;
+      left: 310px;
+    }
+
+    #box3 {
+      height:90px;
+      width:90px;
+      bottom: 390px;
+      left: 410px;
+    }
+
+    #box4 {
+      height:90px;
+      width:90px;
+      bottom: 285px;
+      left: 210px;
+    }
+
+    #box5 {
+      height:90px;
+      width:90px;
+      bottom: 287px;
+      left: 310px;
+    }
+
+    #box6 {
+      height:90px;
+      width:90px;
+      bottom: 287px;
+      left: 410px;
+    }
+
+    #box7 {
+      height:90px;
+      width:90px;
+      bottom: 182px;
+      left: 208px;
+    }
+
+    #box8 {
+      height:90px;
+      width:90px;
+      bottom: 182px;
+      left: 310px;
+    }
+
+    #box9 {
+      height:90px;
+      width:90px;
+      bottom: 182px;
+      left: 415px;
+    }
+
+    #restartGameButton {
+      position: absolute;
+      left: 600px;
+      bottom: 320px;
+    }
+
+    #humanButton {
+      position: absolute;
+      left: 600px;
+      bottom: 448px;
+    }
+
+    #botButton {
+      position: absolute;
+      left: 600px;
+      bottom: 400px;
+    }
+
+    #averageBotButton {
+      position: absolute;
+      left: 600px;
+      bottom: 352px;
+    }
+
+    #box1, #box2, #box3, #box4, #box5, #box6, #box7, #box8, #box9 {
+      background: transparent;
+      border: transparent;
+      outline: none;
+      position: absolute;  
+    }
+  </style>
+</body>

@@ -1,0 +1,297 @@
+<!DOCTYPE html> 
+<head>
+
+  <script>
+    /* 
+    hanger: https://drive.google.com/uc?export=download&id=13O2mj_4_3-Md1aW7C_vlXWGe-DEz4wT8
+    word-line: https://drive.google.com/uc?export=download&id=14oiHvtxz1JHLOkYi2jz2hW5Ps2Efp9RB
+    peen: https://drive.google.com/uc?export=download&id=1YR8p7PpXHYu3DSIVNtKTkbdnoFPto27R
+    head: https://drive.google.com/uc?export=download&id=1Sju_bBIximp7hZvADlKrEqVe89d3jYkY
+    eye: https://drive.google.com/uc?export=download&id=143p_8xw9iyt0wPvTmbxQMZpsI6o8MlT6
+    mouth: https://drive.google.com/uc?export=download&id=10IzYPPJOhbGW7I-2CSBDbw0OVoISAjJ2
+    body: https://drive.google.com/uc?export=download&id=1_S1lLc1nZ7Ue_ZqYRCFB9bZ7dq8Lpkta
+    left arm: https://drive.google.com/uc?export=download&id=1C5FaZUIfuLznY672d4ODAGaCAFMqoE5o
+    right arm: https://drive.google.com/uc?export=download&id=1nLPYVm67ucJCjISL5-pt30bhKITyrE13
+    left leg: https://drive.google.com/uc?export=download&id=15OcvfPFwrJK7pm1d8b-eK5oHzZqtXmt9
+    right leg: https://drive.google.com/uc?export=download&id=1-nLykGyywzk7yMiOSmH4BWuh3hrpp-ME
+    */
+
+    /*document.getElementById("head").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1Sju_bBIximp7hZvADlKrEqVe89d3jYkY'/>";
+    document.getElementById("body").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1_S1lLc1nZ7Ue_ZqYRCFB9bZ7dq8Lpkta'/>";
+    document.getElementById("left-eye").innerHTML="<img src='https://drive.google.com/uc?export=download&id=143p_8xw9iyt0wPvTmbxQMZpsI6o8MlT6'/>";
+    document.getElementById("right-eye").innerHTML="<img src='https://drive.google.com/uc?export=download&id=143p_8xw9iyt0wPvTmbxQMZpsI6o8MlT6'/>";
+    document.getElementById("mouth").innerHTML="<img src='https://drive.google.com/uc?export=download&id=10IzYPPJOhbGW7I-2CSBDbw0OVoISAjJ2'/>";
+    document.getElementById("left-arm").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1C5FaZUIfuLznY672d4ODAGaCAFMqoE5o'/>";
+    document.getElementById("right-arm").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1nLPYVm67ucJCjISL5-pt30bhKITyrE13'/>";
+    document.getElementById("left-leg").innerHTML="<img src='https://drive.google.com/uc?export=download&id=15OcvfPFwrJK7pm1d8b-eK5oHzZqtXmt9'/>";
+    document.getElementById("right-leg").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1-nLykGyywzk7yMiOSmH4BWuh3hrpp-ME'/>";
+    document.getElementById("peen").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1YR8p7PpXHYu3DSIVNtKTkbdnoFPto27R'/>";
+    */
+
+    var lineIDS = ["first", "second", "third", "fourth", "fifth", "sixth", "seventh", "eighth", "ninth", "tenth"];
+    var leftPercents = ["-40%", "0%", "40%", "80%", "120%", "160%", "200%", "240%", "280%", "320%"];
+
+    var officialWord = "";
+    var counter = 0;
+
+    function enterWordChoice(word){
+      word = document.getElementById('input-bar').value;
+      
+      if(word.length > 10 || word.length < 2){
+        alert("Word has to be at least 2 letters and it has to be 10 letters or less!");
+        document.getElementById("start-button").disabled = false;
+        document.getElementById("input-bar").disabled = false;
+        word = "";
+      } else {
+          
+          word = document.getElementById('input-bar').value;
+          officialWord = word;
+          document.getElementById("input-bar").disabled = true;
+          document.getElementById("start-button").disabled = true;
+          document.getElementById("inPlayInput").disabled = false;  
+        
+          for(var i = 0; i < word.length; i++){
+            var g = document.createElement('div');
+            g.setAttribute('id', lineIDS[i]);
+            document.getElementById("hanger-and-man").appendChild(g);
+            document.getElementById(lineIDS[i]).innerHTML="<img src='https://drive.google.com/uc?export=download&id=14oiHvtxz1JHLOkYi2jz2hW5Ps2Efp9RB'/>";
+            document.getElementById(lineIDS[i]).style.position = "absolute";
+            document.getElementById(lineIDS[i]).style.bottom = "-500%";
+            document.getElementById(lineIDS[i]).style.left = leftPercents[i];
+          }
+        
+      }
+    }
+
+    var chosenLetters = [];
+    var counter = 0;
+
+    function detectLetter(letter){
+      letter = document.getElementById('inPlayInput').value;
+      chosenLetters.push(letter);
+      
+      chosenLetters = chosenLetters.filter(function(e){return e});
+      
+      console.log(chosenLetters);
+      
+      if(hasDuplicate(chosenLetters)){
+        alert("You can't choose the same letter!");
+        chosenLetters = chosenLetters.filter( function( item, index, inputArray ) {
+               return inputArray.indexOf(item) == index;
+        });
+      }else if(letter.length >= 1){
+        alert("You have chosen " + letter + "\n" + "Enter your next desired letter.");
+        document.getElementById("guessedLetters").textContent += letter;
+        for(var i = counter; i < chosenLetters.length; i++){
+          checkIfMatch(chosenLetters[i]);
+          counter++;
+        }
+      }
+    }
+
+    function hasDuplicate(arr) {
+        var i = arr.length, j, val;
+
+        while (i--) {
+            val = arr[i];
+            j = i;
+            while (j--) {
+                if (arr[j] === val) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    var newArr = [];
+    var winCounter = 0;
+    var loseCounter = 0;
+
+    function checkIfMatch(letter){
+      var word = officialWord.split("");
+      
+      const indexOfAll = (arr, val) => arr.reduce((acc, el, i) => (el === val ? [...acc, i] : acc), []);
+     
+      var arr = indexOfAll(word, letter);
+      
+      for(var i = 0; i < arr.length; i++){
+        document.getElementById(lineIDS[arr[i]]).innerHTML = letter;
+        document.getElementById(lineIDS[arr[i]]).style.fontSize = "xx-large";
+        winCounter++;
+      } 
+      
+      if(arr.length == 0){
+        loseCounter++;
+      }
+      
+      if(winCounter == word.length){
+         alert("You Win!")
+      }
+      
+      checkIfWrong();
+     }
+
+    function checkIfWrong(){
+      if(loseCounter == 1){
+        document.getElementById("head").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1Sju_bBIximp7hZvADlKrEqVe89d3jYkY'/>";
+      } else if(loseCounter == 2){
+         document.getElementById("body").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1_S1lLc1nZ7Ue_ZqYRCFB9bZ7dq8Lpkta'/>";       
+      } else if(loseCounter == 3){
+          document.getElementById("left-eye").innerHTML="<img src='https://drive.google.com/uc?export=download&id=143p_8xw9iyt0wPvTmbxQMZpsI6o8MlT6'/>";      
+      } else if(loseCounter == 4){
+          document.getElementById("right-eye").innerHTML="<img src='https://drive.google.com/uc?export=download&id=143p_8xw9iyt0wPvTmbxQMZpsI6o8MlT6'/>";     
+      } else if(loseCounter == 5){
+          document.getElementById("mouth").innerHTML="<img src='https://drive.google.com/uc?export=download&id=10IzYPPJOhbGW7I-2CSBDbw0OVoISAjJ2'/>";      
+      } else if(loseCounter == 6){
+          document.getElementById("left-arm").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1C5FaZUIfuLznY672d4ODAGaCAFMqoE5o'/>";      
+      } else if(loseCounter == 7){
+           document.getElementById("right-arm").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1nLPYVm67ucJCjISL5-pt30bhKITyrE13'/>";     
+      } else if(loseCounter == 8){
+           document.getElementById("left-leg").innerHTML="<img src='https://drive.google.com/uc?export=download&id=15OcvfPFwrJK7pm1d8b-eK5oHzZqtXmt9'/>";    
+      } else if(loseCounter == 9){
+           document.getElementById("right-leg").innerHTML="<img src='https://drive.google.com/uc?export=download&id=1-nLykGyywzk7yMiOSmH4BWuh3hrpp-ME'/>";     
+          alert("You Lose.");
+          alert("The word was " + "\"" + officialWord + "\"");
+      } 
+    }
+
+  </script>
+  
+</head>
+
+<body>
+  <div id="hanger-and-man"> 
+    <h1> Hangman </h1>
+      <img id="hanger" src="https://drive.google.com/uc?export=download&id=13O2mj_4_3-Md1aW7C_vlXWGe-DEz4wT8"> </img> 
+      <div id="head"> </div>
+      <div id="left-eye"> </div>
+      <div id="right-eye"> </div>
+      <div id="mouth"> </div>
+      <div id="body"> </div>
+      <div id="left-arm"> </div>
+      <div id="right-arm"> </div>
+      <div id="left-leg"> </div>
+      <div id="right-leg"> </div>
+      <div id="peen"> </div>
+      <div id="line"> </div>
+      <input id="input-bar" type="text" onfocus="this.value=''; this.type='password'" value="Enter Word of Choice Here">
+      <button id="start-button" onclick="enterWordChoice();"> Start Game </button>
+      <button id="restart-button" onclick="window.location.href=window.location.href"> Restart Game </button> 
+    <h3 id="guessedLetters"> Letters Guessed: </h3>
+    <input id="inPlayInput" type="text" onfocus="this.value='';" value="Enter Letter Here" onkeypress="detectLetter()" disabled></input>
+  </div>
+
+  <style>
+      #hanger-and-man {
+      position: absolute;
+      left: 45%;
+    }
+
+
+    #title {
+      position: absolute;
+    }
+
+    #hanger {
+      position: absolute;
+      left: -140%;
+      bottom: -400%;
+    }
+
+    #head {
+      position: absolute;
+      bottom: -147%;
+      left: -38%;
+    }
+
+    #body {
+      position: absolute;
+      bottom: -240%;
+      left: -37%;
+    }
+
+    #left-eye {
+      position: absolute;
+      bottom: -147%;
+      left: -43%;
+    }
+
+    #right-eye {
+      position: absolute;
+      bottom: -147%;
+      left: -32%;
+    }
+
+    #mouth {
+      position: absolute;
+      bottom: -157%;
+      left: -38%;
+    }
+
+    #left-arm {
+      position: absolute;
+      bottom: -200%;
+      left: -45%;
+    }
+
+    #right-arm {
+      position: absolute;
+      bottom: -200.2%;
+      left: -30.5%;
+    }
+
+    #left-leg {
+      position: absolute;
+      bottom: -264%;
+      left: -49%;
+    }
+
+    #right-leg {
+      position: absolute;
+      bottom: -264%;
+      left: -27%;
+    }
+
+    #peen {
+      position: absolute;
+      bottom: -260%;
+      left: -38.5%;
+    }
+
+    #line {
+      position: absolute;
+      bottom: -500%;
+      left: -40%;
+    }
+
+    #start-button {
+      position: absolute;
+      bottom: -65%;
+      left: 300%;
+    }
+
+    #restart-button {
+      position: absolute;
+      bottom: -120%;
+      left: 300%;
+    }
+
+    #input-bar {
+      position: absolute;
+      bottom: -57%;
+      left: 170%;
+    }
+
+    #guessedLetters {
+      position: absolute;
+      left: -500%;
+    }
+
+    #inPlayInput {
+      position: absolute;
+      left: 170%;
+      bottom: -310%;
+    }
+  </style>
+</body>
